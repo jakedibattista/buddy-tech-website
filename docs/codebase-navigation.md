@@ -1,6 +1,8 @@
 # Finding your way around the Puck Buddy website
 
-Start with [the README](../README.md) for setup, production routes and deploy commands. The [engineering map](https://github.com/jakedibattista/puck-buddy/blob/main/docs/ecosystem.md) owns cross-repository naming and boundaries. This repository owns public marketing/support content, not the app, analysis worker or coach dashboard.
+Start with [the README](../README.md) for setup, production routes and deploy commands. The [engineering map](https://github.com/jakedibattista/puckbuddy-app/blob/main/docs/ecosystem.md) owns cross-repository naming and boundaries. This repository owns public marketing/support content, not the app, analysis worker or coach dashboard.
+
+The app repository's [local workspace guide](https://github.com/jakedibattista/puckbuddy-app/blob/main/docs/local-workspace.md) owns primary checkout labels and temporary-worktree naming, ownership and retirement. Use its lifecycle rules rather than creating extra website copies in this repository's parent folder.
 
 | Work | Owner |
 | --- | --- |

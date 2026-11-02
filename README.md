@@ -1,8 +1,10 @@
-Puck Buddy marketing website (Next.js App Router).
+# Buddy Tech — Website
 
-See the [Puck Buddy engineering map](https://github.com/jakedibattista/puck-buddy/blob/main/docs/ecosystem.md) for repository ownership, naming and the complete analysis lifecycle. Source integration and production deployment are separate states.
+The public Buddy Tech website includes Puck Buddy product, download and support pages. Its primary checkout is `~/Code/CodeStuff/Buddy Tech - Website`. Built with the Next.js App Router.
 
-**Live site:** [buddysports.app](https://buddysports.app) · **Repo:** [github.com/jakedibattista/puckbuddywebsite](https://github.com/jakedibattista/puckbuddywebsite) · **Vercel:** `buddy-tech/puckbuddy-website`
+See the [Puck Buddy engineering map](https://github.com/jakedibattista/puckbuddy-app/blob/main/docs/ecosystem.md) for repository ownership, naming and the complete analysis lifecycle. Source integration and production deployment are separate states.
+
+**Live site:** [buddysports.app](https://buddysports.app) · **Repo:** [github.com/jakedibattista/buddy-tech-website](https://github.com/jakedibattista/buddy-tech-website) · **Vercel:** `buddy-tech/puckbuddy-website`
 
 Start with [documentation navigation](docs/README.md) and [file responsibilities](docs/source-index.md) when changing code.
 
@@ -128,7 +130,7 @@ source and scope, including the since-retired standalone artwork tooling.
 
 ## Workspace layout and maintenance
 
-This Git repository starts at `puckbuddy-website/` inside the local `Puckbuddy-Vercel/` workspace. The parent directory is not a Git repository and is not Vercel's source root. Parent folders such as `IMAGES/`, `prototype/`, `videos/` and `Download-on-the-App-Store/` are local marketing source archives. They are not published by pushing this repository.
+The primary local checkout is `~/Code/CodeStuff/Buddy Tech - Website`. It is the website Git root and the source for Vercel. The former `Puckbuddy-Vercel` parent was retired on November 2, 2026. Its local videos, brand assets, design context, settings and tools are preserved privately in `~/Code/CodeStuff/Puckbuddy-artifacts/2026-11/retired-website-parent-2026-11-02/files/`. The adjacent retirement manifest verifies all 8,963 archived entries. These source assets are separate from the runtime files in `public/` and are not included in website pushes.
 
 - `src/app/`: routes, components, hooks and library code.
 - `public/`: website assets and captures used by retained public export routes.
