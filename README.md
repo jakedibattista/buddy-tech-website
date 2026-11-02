@@ -46,7 +46,11 @@ production build or browser suite in this checkout. Next development, production
 builds and the browser fixture share `.next/`, generated route types and
 `next-env.d.ts`; different HTTP ports do not isolate those files.
 
-Run these commands one at a time, after lint, type checks and unit tests:
+Choose checks using [AGENTS.md](AGENTS.md). Documentation and copy-only edits do
+not require a build, browser suite or full CI. Run focused checks for small source
+changes and expand only when the affected behavior requires it.
+
+When a build or browser check is relevant, run the selected commands one at a time:
 
 ```bash
 npm run build
