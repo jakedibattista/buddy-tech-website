@@ -50,13 +50,14 @@ Regenerate with `python3 scripts/check-repository.py --write-index` after adding
 | [src/app/hooks/useWalkthroughSlides.ts](<../src/app/hooks/useWalkthroughSlides.ts>) | Owns browser-local walkthrough text and preserves drafts when storage is unavailable. The legacy cache shape stays readable; successful storage precedes adopting edited slides. |
 | [src/app/lacrosse/layout.tsx](<../src/app/lacrosse/layout.tsx>) | Sets lacrosse page metadata while leaving shared navigation to the root layout. |
 | [src/app/lacrosse/page.tsx](<../src/app/lacrosse/page.tsx>) | Lists external lacrosse products with their existing beta labels and destination links. |
-| [src/app/layout.tsx](<../src/app/layout.tsx>) | Owns shared metadata, site navigation, footer and the single analytics installation. |
+| [src/app/layout.tsx](<../src/app/layout.tsx>) | Owns shared metadata, public structured data, navigation, footer and the single analytics installation. |
 | [src/app/lib/constants.ts](<../src/app/lib/constants.ts>) | Owns shared product links, contact destinations and displayed marketing constants. |
 | [src/app/lib/conversionAnalytics.ts](<../src/app/lib/conversionAnalytics.ts>) | Records conversion telemetry without letting an SDK failure interrupt the user's action. Callers supply bounded event properties; this helper neither submits inquiries nor opens destinations. |
 | [src/app/lib/interactiveDemoCatalog.ts](<../src/app/lib/interactiveDemoCatalog.ts>) | Defines screenshot assets and navigation hotspots for the illustrative product demo. The demo uses fixed examples and does not upload media or run live analysis. |
 | [src/app/lib/partnerInquiry.ts](<../src/app/lib/partnerInquiry.ts>) | Encodes partner inquiry fields into an email draft URL without sending mail. |
 | [src/app/lib/partnerReceipt.ts](<../src/app/lib/partnerReceipt.ts>) | Stores immutable private inquiry receipts and a retryable notification outbox in Vercel Blob. Contact details stay in private storage and the configured inbox, never analytics or logs. |
 | [src/app/lib/partnerSubmission.ts](<../src/app/lib/partnerSubmission.ts>) | Validates bounded partner inquiry payloads before storage or email delivery. |
+| [src/app/lib/publicStructuredData.ts](<../src/app/lib/publicStructuredData.ts>) | Describes the public company, canonical website and Puck Buddy product for crawlers. These identifiers use the canonical domain; pricing, ratings and private data are excluded. |
 | [src/app/lib/walkthroughSlides.ts](<../src/app/lib/walkthroughSlides.ts>) | Owns the walkthrough catalog and recovers saved text without trusting cached media metadata. Valid text remains usable when other cache entries are malformed; original cache bytes are not deleted. |
 | [src/app/opengraph-image.tsx](<../src/app/opengraph-image.tsx>) | Renders the social preview image used when the public website is shared. |
 | [src/app/page.tsx](<../src/app/page.tsx>) | Presents the Buddy Sports homepage with attributed product statistics and supported product routes. |

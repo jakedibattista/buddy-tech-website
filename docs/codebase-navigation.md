@@ -7,6 +7,7 @@ The app repository's [local workspace guide](https://github.com/jakedibattista/p
 | Work | Owner |
 | --- | --- |
 | Public pages and shared shell | src/app/page.tsx, route folders, layout.tsx |
+| Public discovery | `lib/publicStructuredData.ts` supplies canonical company, website and application identities through the root layout. `public/robots.txt` permits user-requested ChatGPT visits while retaining existing training-crawler exclusions; `sitemap.ts` lists public pages. `buddyllc.app` is a hosted redirect to `buddysports.app`, not a separate company website. |
 | Download routing and conversion tracking | components/SmartAppLink.tsx, hooks/useAppStoreUrl.ts, lib/constants.ts |
 | Partner inquiries and private receipts | components/ContactForm.tsx, api/partner-inquiries/, lib/partnerSubmission.ts, lib/partnerReceipt.ts |
 | Retained manual email draft encoder | lib/partnerInquiry.ts |
@@ -25,7 +26,9 @@ The [source index](source-index.md) maps each supported first-party source/test/
 
 Use one Analytics component in the root layout. The [marketing claims record](marketing-claims.md) owns attribution and evidence rules. Public marketing values live in lib/constants.ts; HTTP contracts live in the model repository. Update the shared owner rather than copying data into every page. Legal text and dated store artwork have their own review/history; saving an asset is not submitting it to a store.
 
-Run python3 scripts/check-repository.py and python3 -m unittest discover -s scripts -p test_repository_conventions.py. After reviewing a file addition or changed introduction, regenerate with --write-index. The checker validates navigation, not semantic truth; review the explanation against source. Run npm test, npm run lint and npm run build for integration, plus the local browser suite for conversion changes.
+Follow the change-based verification policy in [AGENTS.md](../AGENTS.md). Documentation and copy-only edits need a diff and affected-link/wording review. Small source changes need the owning focused tests and relevant lint/type checks; add a build, HTTP probe or focused browser flow only when the changed behavior needs it. Full suites and full CI are not a default local completion requirement.
+
+Run `python3 scripts/check-repository.py` when file inventory, indexed explanations or checked navigation references change. Refresh the index with `--write-index` when needed. Run `python3 -m unittest discover -s scripts -p test_repository_conventions.py` when changing the checker or its conventions. The checker validates navigation, not semantic truth; review explanations against source. Existing automatic CI and deployment/merge gates remain unchanged.
 
 Generated Next.js types belong under .next and are rebuilt by Next. Local Python environments, node_modules, test output and captured build artifacts are not source. The formerly tracked venv tree was removed from the Git index while preserving local files; local environments are not committed source.
 
