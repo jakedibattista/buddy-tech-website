@@ -1,4 +1,4 @@
-// Owns shared metadata, site navigation, footer and the single analytics installation.
+// Owns shared metadata, public structured data, navigation, footer and the single analytics installation.
 import type { Metadata, Viewport } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
@@ -7,6 +7,7 @@ import Link from "next/link";
 import Navigation from "./components/Navigation";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+import { publicStructuredData } from "./lib/publicStructuredData";
 
 const homeTitle = "Puck Buddy — Hockey Video Feedback and Training";
 const homeDescription =
@@ -46,6 +47,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <body className={`${GeistSans.className} font-sans antialiased`}>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(publicStructuredData).replace(/</g, "\\u003c") }}
+        />
         <div className="flex flex-col min-h-screen">
           <Navigation />
           <main className="flex-grow">{children}</main>
