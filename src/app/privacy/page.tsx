@@ -11,7 +11,7 @@ export default function PrivacyPolicy() {
   return (
     <div className="container mx-auto p-10">
       <h1 className="text-3xl font-bold mb-4">Privacy Policy for Buddy Tech LLC</h1>
-      <p className="mb-4">Last Updated: October 14, 2026</p>
+      <p className="mb-4">Last Updated: November 2, 2026</p>
 
       <h2 className="text-2xl font-bold mt-6 mb-2">1. INTRODUCTION</h2>
       <p className="mb-4">
@@ -91,7 +91,6 @@ export default function PrivacyPolicy() {
         <li><strong>Sentry:</strong> Collects crash logs, sampled performance and diagnostic data with an account identifier to help us identify and fix bugs. The updated app removes direct email identifiers and disables screenshot capture in these reports.</li>
         <li><strong>RevenueCat:</strong> Manages subscription purchases, history, and user entitlements.</li>
         <li><strong>Google Firebase:</strong> Used for data storage (Firestore, Cloud Storage), analytics tracking (Firebase Analytics), and user authentication.</li>
-        <li><strong>Mailchimp:</strong> Used for email marketing and communications, such as updates triggered by your video milestones.</li>
         <li><strong>Google Gemini API:</strong> Processes your uploaded video content and conversational chat data to provide AI-powered coaching analysis.</li>
       </ul>
 

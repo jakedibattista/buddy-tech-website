@@ -11,7 +11,7 @@ export default function TermsOfService() {
   return (
     <div className="container mx-auto p-10">
       <h1 className="text-3xl font-bold mb-4">Terms of Service for Buddy Tech LLC</h1>
-      <p className="mb-4">Last Updated: March 30, 2026</p>
+      <p className="mb-4">Last Updated: November 2, 2026</p>
 
       <h2 className="text-2xl font-bold mt-6 mb-2">1. AGREEMENT TO TERMS</h2>
       <p className="mb-4">
@@ -75,7 +75,7 @@ export default function TermsOfService() {
 
       <h2 className="text-2xl font-bold mt-6 mb-2">9. THIRD-PARTY SERVICES</h2>
       <p className="mb-4">
-        The App relies on third-party services to operate its features. By using the App, you acknowledge and agree that your data (including video content and analytics) may be transmitted to and processed by providers such as Google Firebase (for backend infrastructure and analytics), Sentry (for crash reporting), Mailchimp (for email communications), RevenueCat (for subscription management), and Google Gemini (for AI video analysis). Your use of the App is also subject to the terms and privacy policies of these third-party providers.
+        The App relies on third-party services to operate its features. By using the App, you acknowledge and agree that your data (including video content and analytics) may be transmitted to and processed by providers such as Google Firebase (for backend infrastructure and analytics), Sentry (for crash reporting), RevenueCat (for subscription management), and Google Gemini (for AI video analysis). Your use of the App is also subject to the terms and privacy policies of these third-party providers.
       </p>
 
       <h2 className="text-2xl font-bold mt-6 mb-2">10. MODIFICATIONS TO TERMS</h2>
