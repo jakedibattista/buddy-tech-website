@@ -40,7 +40,7 @@ export default function PrivacyPolicy() {
 
       <h3 className="text-xl font-bold mt-4 mb-2">User Uploaded Content & Chat Data</h3>
       <p className="mb-4">
-        When you use the App, you may upload videos and other content for analysis. This includes video recordings of your hockey activities. In addition, we collect conversational data from chat sessions (such as interactions with OpenIce and StatsChat) about your performance. This data is transmitted to our backend for processing to provide personalized feedback.
+        When you use the App, you may upload videos and other content for analysis. This includes video recordings of your hockey activities. In addition, we collect conversational data from chat sessions (Coach Chat) about your performance. This data is transmitted to our backend for processing to provide personalized feedback.
       </p>
 
       <h3 className="text-xl font-bold mt-4 mb-2">Push Notification Tokens</h3>
