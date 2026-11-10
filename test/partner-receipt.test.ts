@@ -21,8 +21,8 @@ beforeEach(() => {
   vi.stubEnv('PARTNER_SMTP_PASSWORD', 'fixture-secret');
   vi.stubEnv('PARTNER_SMTP_PORT', '');
   vi.stubEnv('CRON_SECRET', 'fixture-cron');
-  m.put.mockImplementation(async (path: string, body: string) => {
-    if (blobs.has(path)) throw Error('Existing blob');
+  m.put.mockImplementation(async (path: string, body: string, options: { allowOverwrite?: boolean }) => {
+    if (blobs.has(path) && !options.allowOverwrite) throw Error('Existing blob');
     blobs.set(path, body);
   });
   m.get.mockImplementation(async (path: string) => blobs.has(path) ? { statusCode: 200, stream: new Response(blobs.get(path)).body } : null);
@@ -122,4 +122,44 @@ it('requires a configured, exact byte-matching cron secret before reading privat
   const success = await GET(req('Bearer fixture-cron'));
   expect(success.status).toBe(200);expect(await success.json()).toEqual({ attempted: 0, notified: 0 });
   vi.stubEnv('CRON_SECRET', '');expect((await GET(req('Bearer fixture-cron'))).status).toBe(401);
+});
+
+it('reaches a deliverable inquiry behind a full page of persistent failures, then wraps', async () => {
+  const ids = Array.from({ length: 11 }, (_, index) =>
+    `00000000-0000-4000-8000-${String(index).padStart(12, '0')}`);
+  const healthy = ids[10];
+  for (const id of ids) await savePartnerReceipt({ ...fixture, id });
+  const row = (id: string) => ({ pathname: `partner-inquiries/pending/${id}.json` });
+  m.list.mockImplementation(async ({ cursor }) => cursor === 'next'
+    ? { blobs: blobs.has(row(healthy).pathname) ? [row(healthy)] : [], hasMore: false }
+    : { blobs: ids.slice(0, 10).map(row), cursor: 'next', hasMore: blobs.has(row(healthy).pathname) });
+  m.send.mockImplementation(async ({ subject }) => {
+    if (!subject.includes(healthy)) throw Error('Persistent receipt-specific failure');
+    return { accepted: ['fixture@example.test'] };
+  });
+  vi.spyOn(console, 'error').mockImplementation(() => {});
+  const run = async () => {
+    const response = await GET(new Request('https://example.test/api/partner-inquiries/retry', {
+      headers: { Authorization: 'Bearer fixture-cron' },
+    }));
+    expect(response.status).toBe(200);
+    return response.json();
+  };
+
+  expect(await run()).toEqual({ attempted: 10, notified: 0 });
+  expect(await run()).toEqual({ attempted: 1, notified: 1 });
+  expect(blobs.has(`partner-inquiries/notified/${healthy}.json`)).toBe(true);
+  expect(blobs.has(row(healthy).pathname)).toBe(false);
+  expect(ids.slice(0, 10).every(id => blobs.has(row(id).pathname))).toBe(true);
+  expect(await run()).toEqual({ attempted: 10, notified: 0 });
+  expect(m.list.mock.calls.map(([options]) => options.cursor)).toEqual([undefined, 'next', undefined]);
+});
+
+it('restarts the scan if the stored continuation cannot be listed', async () => {
+  const path = 'partner-inquiries/retry-cursor.json';
+  blobs.set(path, JSON.stringify({ cursor: 'stale' }));
+  m.list.mockRejectedValueOnce(Error('Invalid continuation'));
+  expect(await retryPartnerNotifications()).toEqual({ attempted: 0, notified: 0 });
+  expect(m.list.mock.calls.map(([options]) => options.cursor)).toEqual(['stale', undefined]);
+  expect(blobs.has(path)).toBe(false);
 });
