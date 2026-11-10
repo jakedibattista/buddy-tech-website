@@ -8,6 +8,7 @@ import type { PartnerSubmission } from "./partnerSubmission";
 const receiptPath = (id: string) => `partner-inquiries/receipts/${id}.json`;
 const pendingPath = (id: string) => `partner-inquiries/pending/${id}.json`;
 const sentPath = (id: string) => `partner-inquiries/notified/${id}.json`;
+const retryCursorPath = "partner-inquiries/retry-cursor.json";
 const options = { access: "private" as const, addRandomSuffix: false, contentType: "application/json", cacheControlMaxAge: 0 };
 
 async function readJson(path: string) {
@@ -56,7 +57,20 @@ export async function notifyPartnerReceipt(id: string): Promise<boolean> {
 }
 
 export async function retryPartnerNotifications(): Promise<{ attempted: number; notified: number }> {
-  const pending = await list({ prefix: "partner-inquiries/pending/", limit: 10 });
+  const checkpoint = await readJson(retryCursorPath);
+  const cursor = typeof checkpoint?.cursor === "string" ? checkpoint.cursor : undefined;
+  const page = { prefix: "partner-inquiries/pending/", limit: 10 };
+  const pending = cursor
+    ? await list({ ...page, cursor }).catch(() => list(page))
+    : await list(page);
+
+  // Advance before sending. Failing or timed-out deliveries stay pending and
+  // get another chance after the scan wraps to the beginning.
+  if (pending.hasMore && pending.cursor) {
+    await put(retryCursorPath, JSON.stringify({ cursor: pending.cursor }), { ...options, allowOverwrite: true });
+  } else if (checkpoint) {
+    await del(retryCursorPath);
+  }
   let notified = 0;
   for (const blob of pending.blobs) {
     const id = blob.pathname.split("/").pop()!.replace(/\.json$/, "");

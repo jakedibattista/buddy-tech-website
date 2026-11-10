@@ -32,8 +32,11 @@ requires TLS. Credentials are sensitive production-only Vercel variables:
 
 An hourly Vercel cron (`17 * * * *`, UTC) calls `/api/partner-inquiries/retry`.
 Its bearer credential must exactly match the sensitive production `CRON_SECRET`.
-Each run retries at most ten pending records. Successful SMTP acceptance is
-recorded before removing the outbox item. The queue is at-least-once: if SMTP
+Each run retries at most ten pending records. A private
+`partner-inquiries/retry-cursor.json` checkpoint advances the scan before email
+delivery, so failures on one page do not keep later receipts waiting. The scan
+wraps after the last page and restarts if a stored cursor cannot be listed.
+Successful SMTP acceptance is recorded before removing the outbox item. The queue is at-least-once: if SMTP
 accepts mail but writing its marker fails, a later retry can send a duplicate.
 Use the UUID reference to identify duplicates. Failed attempts retain the receipt
 and outbox; logs contain only an operational label and UUID, never contact fields,
